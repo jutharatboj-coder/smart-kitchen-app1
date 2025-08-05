@@ -18,7 +18,7 @@ import {
 } from 'firebase/firestore';
 
 // --- Gemini API Configuration ---
-const API_KEY = ""; // This will be provided by the environment.
+const API_KEY = "process.env.REACT_APP_GEMINI_API_KEY"; // This will be provided by the environment.
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
 
 
@@ -62,10 +62,18 @@ const initialTransferDataList = [
 ];
 
 // --- Firebase Configuration ---
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+// ดึงค่า Config มาจากไฟล์ .env ที่เราตั้งค่าไว้
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID
+};
 
+// ตั้งค่าเริ่มต้นสำหรับ Token (เนื่องจากเราไม่ได้ใช้ ให้เป็น null)
+const initialAuthToken = null;
 // Main App Component
 export default function App() {
     const [activePage, setActivePage] = useState('dashboard');
